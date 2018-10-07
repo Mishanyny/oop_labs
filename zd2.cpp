@@ -8,13 +8,19 @@ class DinArr
 
     public:
     int size;
+
     DinArr();
     DinArr(int len);
+    DinArr(DinArr &arr);
     ~DinArr();
-    void key_input();
-    friend void avarage(const DinArr& obj);
-    
+
     int operator[](int i)const;
+    int operator[](int i);
+    DinArr operator=(DinArr array);
+
+    void key_input();
+
+    friend void avarage(const DinArr& obj);
        
     private:
     int* arr;
@@ -35,6 +41,20 @@ DinArr::DinArr(int len)
     arr = new int[size];
 }
 
+
+DinArr::DinArr(DinArr &array)
+{
+    arr = new int[array.size];
+    size = array.size;
+
+    for(int i=0; i<array.size; i++)
+    {
+        arr[i] = array.arr[i];
+    }
+    
+}
+
+
 DinArr::~DinArr()
 {
     if (arr!=NULL)
@@ -48,6 +68,29 @@ int DinArr::operator[](int i) const
 {
     return arr[i];
 }
+
+
+int DinArr::operator[](int i)
+{
+    return arr[i];
+}
+
+
+DinArr DinArr::operator=(DinArr array)
+{
+    delete this->arr;
+
+    this->arr = new int[array.size];
+    this->size = array.size;
+    
+    for(int i=0; i<array.size; i++)
+    {
+        this->arr[i] = array.arr[i];
+    }
+    
+    return *this;
+}
+
 
 
 void DinArr::key_input()
@@ -92,8 +135,21 @@ int main()
 {
     DinArr array(5);
     array.key_input();
+    //copy constructor
+    DinArr array_two = array;
+
+    avarage(array_two);
+    found_min(array_two);
+    
+    DinArr new_array(7);
+    new_array.key_input();
+    avarage(new_array);
+    found_min(new_array);
+    
+    array =  new_array;
+
     avarage(array);
-    found_min(array);
+    found_min(array);    
     
     return 0;
 }
